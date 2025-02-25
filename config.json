@@ -1,0 +1,32 @@
+{
+  "mqtt": {
+    "broker": "10.0.0.18",
+    "port": 1883,
+    "topics": ["docker/#","hass.agent/#","frigate/#","homeassistant/#"],
+    "username": "homeassistant",
+    "password": "abbaaabababbababbababbabbabababPOOTabbabababababaNotRealPasswordOrIzit",
+    "json_fields": {
+      "docker/jellyfin/status": "health",
+      "docker/nginx/status": "status"
+    }
+  },
+  "screensaver": {
+    "width": 1920,
+    "height": 1080,
+    "font_name": "monospace",
+    "font_size": 25,
+    "speed": 7.0,
+    "topic_color": [0, 255, 0],
+    "payload_color": [200, 200, 200],
+    "keywords": {
+      "healthy": [0, 0, 255],
+      "unhealthy": [255, 0, 0],  
+      "docker": [255, 0, 0],
+      "location": [255, 165, 0],
+      "motion": [0, 255, 255]
+    },
+    "background_color": [0, 0, 0],
+    "payload_char_limit": 50,
+    "min_alpha": 50
+  }
+}
