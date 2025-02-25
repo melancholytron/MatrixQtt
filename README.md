@@ -25,11 +25,8 @@ A real-time MQTT message visualizer inspired by the Matrix digital rain effect. 
 
 
 # 1. Clone repository
-git clone https://github.com/yourusername/matrix-mqtt-screensaver.git
-cd matrix-mqtt-screensaver
+git clone https://github.com/melancholytron/MatrixQtt.git
 
-# 2. Install dependencies
-pip install -r requirements.txt
 
 ## Configuration
 
