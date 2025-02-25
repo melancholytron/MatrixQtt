@@ -4,7 +4,7 @@
     "port": 1883,
     "topics": ["docker/#","hass.agent/#","frigate/#","homeassistant/#"],
     "username": "homeassistant",
-    "password": "khagsPassowordIsIdrinkBaileysfromAshoe",
+    "password": "khagsPassowordIsIdrinkBaileysfrommeShmeldsshoe",
     "json_fields": {
       "docker/jellyfin/status": "health",
       "docker/nginx/status": "status"
