@@ -1,5 +1,5 @@
 
-# Matrix MQTT Screensaver
+# MatrixQTT Screensaver
 
 A real-time MQTT message visualizer inspired by the Matrix digital rain effect. Displays incoming MQTT messages with customizable colors and effects.
 
