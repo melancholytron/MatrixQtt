@@ -11,15 +11,13 @@ def debug_print(*args):
     if DEBUG: print("[DEBUG]", *args)
 
 messages = []
-current_speed = 1.0
+current_speed = 5.0
 running = True
 
 def sanitize_text(text):
-    """Clean text for safe rendering"""
     return text.replace('\x00', ' ').encode('utf-8', 'replace').decode('utf-8')
 
 def process_payload(topic, payload):
-    """Extract specific JSON fields if configured"""
     try:
         json_fields = config["mqtt"].get("json_fields", {})
         if topic in json_fields:
@@ -33,7 +31,6 @@ def process_payload(topic, payload):
     return payload
 
 try:
-    # Load configuration
     debug_print("Loading config.json...")
     with open("config.json") as f:
         config = json.load(f)
@@ -41,17 +38,22 @@ try:
     mqtt_conf = config["mqtt"]
     screen_conf = config["screensaver"]
 
-    # Pygame initialization
-    debug_print("Initializing Pygame...")
     pygame.init()
+    pygame.mixer.init()
+    
+    initial_flags = pygame.DOUBLEBUF | pygame.HWSURFACE
+    if screen_conf.get("fullscreen", False):
+        initial_flags |= pygame.FULLSCREEN
+        
     screen = pygame.display.set_mode(
         (screen_conf["width"], screen_conf["height"]),
-        pygame.DOUBLEBUF | pygame.HWSURFACE
+        initial_flags
     )
     pygame.display.set_caption("MQTT Matrix Screensaver")
     font = pygame.font.SysFont(screen_conf["font_name"], screen_conf["font_size"], bold=True)
 
-    # Color configuration
+    sound_effects = {k: pygame.mixer.Sound(v) for k, v in screen_conf.get("sound_effects", {}).items()}
+
     colors = {
         "topic": tuple(screen_conf["topic_color"]),
         "payload": tuple(screen_conf["payload_color"]),
@@ -59,7 +61,6 @@ try:
         "background": tuple(screen_conf["background_color"])
     }
 
-    # MQTT Client setup
     client = mqtt.Client()
 
     def on_connect(client, userdata, flags, rc):
@@ -72,28 +73,23 @@ try:
 
     def on_message(client, userdata, msg):
         try:
-            # Process payload
             raw_payload = msg.payload.decode('utf-8', errors='replace')
             processed_payload = process_payload(msg.topic, raw_payload)
             
-            # Apply payload limits
             if len(processed_payload) > screen_conf['payload_char_limit']:
                 processed_payload = "!!!"
             
             topic = sanitize_text(msg.topic)
             full_text = f"{topic}: {processed_payload}"
             
-            # Initialize color array
             color_list = []
             text_lower = full_text.lower()
             
-            # Create default color array
-            topic_part_end = len(topic) + 2  # ": " after topic
+            topic_part_end = len(topic) + 2
             for i in range(len(full_text)):
                 color = colors["topic"] if i < topic_part_end else colors["payload"]
                 color_list.append(color)
             
-            # Apply keyword colors
             sorted_keywords = sorted(colors["keywords"].items(), 
                                    key=lambda x: len(x[0]), 
                                    reverse=True)
@@ -109,6 +105,14 @@ try:
                         start += kw_len
                     else:
                         start += 1
+
+            for keyword in sound_effects:
+                if keyword in text_lower:
+                    try:
+                        sound_effects[keyword].play()
+                    except Exception as e:
+                        debug_print(f"Sound error: {e}")
+                    break
 
             messages.append({
                 "text": full_text,
@@ -133,19 +137,17 @@ try:
     mqtt_thread = threading.Thread(target=client.loop_forever, daemon=True)
     mqtt_thread.start()
 
-    # Main loop
     debug_print("Entering main loop")
     clock = pygame.time.Clock()
     while running:
         delta_time = clock.tick(60) / 1000.0
         
-        # Event handling
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
             elif event.type == pygame.KEYDOWN:
                 if event.key in (pygame.K_PLUS, pygame.K_EQUALS):
-                    current_speed = min(current_speed * 1.1, 5.0)
+                    current_speed = min(current_speed * 1.1, 10.0)
                     debug_print(f"Speed increased to {current_speed:.2f}")
                 elif event.key == pygame.K_MINUS:
                     current_speed = max(current_speed * 0.9, 0.1)
@@ -153,8 +155,13 @@ try:
                 elif event.key == pygame.K_c:
                     messages.clear()
                     debug_print("Screen cleared")
+                elif event.key == pygame.K_ESCAPE:
+                    running = False
+                elif event.key == pygame.K_RETURN and (event.mod & pygame.KMOD_ALT):
+                    new_mode = pygame.FULLSCREEN if not screen.get_flags() & pygame.FULLSCREEN else 0
+                    screen = pygame.display.set_mode((screen_conf["width"], screen_conf["height"]), 
+                                                    new_mode | pygame.DOUBLEBUF | pygame.HWSURFACE)
 
-        # Update and render
         screen.fill(colors["background"])
         
         for msg in messages[:]:
