@@ -43,7 +43,7 @@ Edit `config.json` to customize the behavior. Here's an example configuration:
     "broker": "10.0.0.18",  
     "port": 1883,  
     "username": "homeassistant",  
-    "password": "your_password",  
+    "password": "rossDontGiveNoForks",  
     "topics": ["docker/#", "homeassistant/#"],  
     "json_fields": {  
       "docker/jellyfin/status": "health"  
