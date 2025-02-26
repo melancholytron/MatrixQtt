@@ -31,7 +31,7 @@ git clone https://github.com/melancholytron/MatrixQtt.git
 ## Configuration
 
 Edit `config.json`:
-
+```json
 
 {
   "mqtt": {
@@ -60,7 +60,7 @@ Edit `config.json`:
     "min_alpha": 50
   }
 }
-
+```
 ## Usage
 
 Run the screensaver:
