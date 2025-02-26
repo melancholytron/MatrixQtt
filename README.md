@@ -25,8 +25,10 @@ A real-time MQTT message visualizer inspired by the Matrix digital rain effect. 
 
 
 # 1. Clone repository
-git clone https://github.com/melancholytron/MatrixQtt.git
 
+```sh
+git clone https://github.com/melancholytron/MatrixQtt.git
+```
 
 ## Configuration
 
@@ -66,31 +68,26 @@ Edit `config.json`:
 
 Run the screensaver:
 
+```sh
 python MatrixQtt.py
+```
 
 ### Controls
 
 Key Functions:
 
-`+`
-Increase scroll speed
-`-`
-Decrease scroll speed
-`C`
-Clear screen
-`ESC`
-Quit
+- `+`: Increase scroll speed
+- `-`: Decrease scroll speed
+- `C`: Clear screen
+- `ESC`: Quit
 
 ## Configuration Options
 
 ### MQTT Settings
 
 -   `broker`: MQTT broker address
-    
 -   `port`: Broker port (default: 1883)
-    
 -   `topics`: List of topics to subscribe to
-    
 -   `json_fields`: Specific JSON fields to extract
     
 
