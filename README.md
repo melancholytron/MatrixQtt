@@ -130,4 +130,4 @@ Run the screensaver:
 
 ## License
 
-MIT License. See `LICENSE` for details.
+GPL-3.0 license. See `LICENSE` for details.
