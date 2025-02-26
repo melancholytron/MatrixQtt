@@ -32,7 +32,7 @@ git clone https://github.com/melancholytron/MatrixQtt.git
 
 Edit `config.json`:
 
-
+```json
 {
   "mqtt": {
     "broker": "10.0.0.18",
@@ -60,6 +60,7 @@ Edit `config.json`:
     "min_alpha": 50
   }
 }
+```
 
 ## Usage
 
