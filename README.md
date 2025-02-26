@@ -21,16 +21,33 @@ A real-time MQTT message visualizer inspired by the Matrix digital rain effect. 
 ## Requirements
 
 - Python 3.8+  
-- Paho-MQTT (install with `pip install paho-mqtt`)  
-- Pygame (install with `pip install pygame`)  
+- Paho-MQTT
+- Pygame
 
 ---
 
 ## Installation
 
-1. Clone the repository:  
-   `git clone https://github.com/melancholytron/MatrixQtt.git`  
+1. Clone the repository:
 
+    ```sh
+    git clone https://github.com/melancholytron/MatrixQtt.git
+    ```
+
+2. Edit the `config.json` file as described in the configuration section below
+
+3. Install dependencies using either `pip` or `uv` (recommended):
+
+    ```sh
+    uv run MatrixQtt.py
+    ```
+
+    or:
+
+    ```sh
+    pip install -r requirements.txt
+    python MatrixQtt.py
+    ```
 
 ---
 
