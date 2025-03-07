@@ -18,7 +18,8 @@ A real-time MQTT message visualizer inspired by the Matrix digital rain effect. 
 - JSON payload parsing  
 - Dynamic message fading  
 - Fullscreen toggle (Alt+Enter)  
-- Cross-platform support  
+- Cross-platform support
+- Minutes of fun 
 
 ---
 
